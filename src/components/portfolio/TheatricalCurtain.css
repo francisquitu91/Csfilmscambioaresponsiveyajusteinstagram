@@ -1,0 +1,167 @@
+/* Base container */
+.curtain-container {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  pointer-events: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Curtain panels */
+.curtain-left,
+.curtain-right {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  width: 50%;
+  background: linear-gradient(
+    to bottom,
+    #8b0000 0%,
+    #cc0000 50%,
+    #8b0000 100%
+  );
+  transition: transform 4.5s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 51;
+}
+
+.curtain-left::before,
+.curtain-right::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+  background: repeating-linear-gradient(
+    90deg,
+    transparent,
+    rgba(0, 0, 0, 0.1) 2px,
+    transparent 4px
+  );
+}
+
+.curtain-left {
+  left: 0;
+  transform-origin: left;
+  border-right: 4px solid #ffd700;
+}
+
+.curtain-right {
+  right: 0;
+  transform-origin: right;
+  border-left: 4px solid #ffd700;
+}
+
+.curtain-left.open {
+  transform: translateX(-100%);
+}
+
+.curtain-right.open {
+  transform: translateX(100%);
+}
+
+/* Vignette effect */
+.vignette {
+  position: fixed;
+  inset: 0;
+  z-index: 52;
+  pointer-events: none;
+  background: radial-gradient(
+    circle at center,
+    transparent 30%,
+    rgba(0, 0, 0, 0.6) 100%
+  );
+  opacity: 1;
+  transition: opacity 2s ease-out;
+}
+
+.vignette.fade-out {
+  opacity: 0;
+}
+
+/* Content container */
+.curtain-content {
+  position: relative;
+  z-index: 53;
+  opacity: 0;
+  transform: scale(0.95);
+  animation: contentFadeIn 1.5s ease-out forwards;
+}
+
+/* Logo styles */
+.curtain-logo {
+  max-width: 220px;
+  height: auto;
+  margin: 0 auto;
+  opacity: 0;
+  transform: scale(0.9);
+  animation: logoReveal 2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+/* Text container */
+.curtain-text {
+  opacity: 0;
+  animation: textReveal 1.5s ease-out 1.5s forwards;
+}
+
+/* Content fade out when curtain opens */
+.curtain-content.fade-out {
+  animation: contentFadeOut 1s ease-out forwards;
+}
+
+/* Animations */
+@keyframes contentFadeIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes contentFadeOut {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+}
+
+@keyframes logoReveal {
+  0% {
+    opacity: 0;
+    transform: scale(0.9) translateY(20px);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(1.05) translateY(0);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes textReveal {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .curtain-logo {
+    max-width: 180px;
+  }
+}
